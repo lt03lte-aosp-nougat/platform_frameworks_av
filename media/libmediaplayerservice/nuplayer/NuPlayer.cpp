@@ -2071,9 +2071,6 @@ void NuPlayer::performDecoderFlush(FlushCommand audio, FlushCommand video) {
 void NuPlayer::performReset() {
     ALOGV("performReset");
 
-    CHECK(mAudioDecoder == NULL);
-    CHECK(mVideoDecoder == NULL);
-
     cancelPollDuration();
 
     ++mScanSourcesGeneration;
