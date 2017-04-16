@@ -106,8 +106,7 @@ AudioFlinger::EffectModule::EffectModule(ThreadBase *thread,
         goto Error;
     }
 
-    setOffloaded((thread->type() == ThreadBase::OFFLOAD ||
-                 (thread->type() == ThreadBase::DIRECT && thread->mIsDirectPcm)), thread->id());
+    setOffloaded(thread->type() == ThreadBase::OFFLOAD, thread->id());
 
     ALOGV("Constructor success name %s, Interface %p", mDescriptor.name, mEffectInterface);
     return;
@@ -1334,6 +1333,7 @@ status_t AudioFlinger::EffectHandle::command(uint32_t cmdCode,
 {
     ALOGVV("command(), cmdCode: %d, mHasControl: %d, mEffect: %p",
             cmdCode, mHasControl, mEffect.unsafe_get());
+<<<<<<< HEAD
 
     if (cmdCode == EFFECT_CMD_ENABLE) {
         if (*replySize < sizeof(int)) {
@@ -1353,6 +1353,27 @@ status_t AudioFlinger::EffectHandle::command(uint32_t cmdCode,
         return disable();
     }
 
+=======
+
+    if (cmdCode == EFFECT_CMD_ENABLE) {
+        if (*replySize < sizeof(int)) {
+            android_errorWriteLog(0x534e4554, "32095713");
+            return BAD_VALUE;
+        }
+        *(int *)pReplyData = NO_ERROR;
+        *replySize = sizeof(int);
+        return enable();
+    } else if (cmdCode == EFFECT_CMD_DISABLE) {
+        if (*replySize < sizeof(int)) {
+            android_errorWriteLog(0x534e4554, "32095713");
+            return BAD_VALUE;
+        }
+        *(int *)pReplyData = NO_ERROR;
+        *replySize = sizeof(int);
+        return disable();
+    }
+
+>>>>>>> android-7.1.2_r6
     AutoMutex _l(mLock);
     sp<EffectModule> effect = mEffect.promote();
     if (effect == 0 || mDisconnected) {
